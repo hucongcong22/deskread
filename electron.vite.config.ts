@@ -15,6 +15,15 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    server: {
+      proxy: {
+        '/reader3': {
+          target: 'http://192.168.5.12:4396',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/reader3/, '/reader3')
+        }
+      }
+    }
   }
 })

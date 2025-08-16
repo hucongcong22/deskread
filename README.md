@@ -1,6 +1,6 @@
 # deskread
 
-An Electron application with Vue and TypeScript
+An Electron application with Vue and TypeScript for reading novels.
 
 ## Recommended IDE Setup
 
@@ -32,3 +32,27 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+## Project Structure
+
+This project follows a standard Electron application structure with three main processes:
+
+- `src/main`: Main process code
+- `src/preload`: Preload scripts for secure IPC
+- `src/renderer`: Renderer process code (Vue application)
+
+For detailed information about the project structure and development guidelines, please refer to [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md).
+
+## Core Features
+
+- Novel bookshelf management
+- Add, edit, and remove novels from your collection
+- Data persistence using localStorage
+- Responsive UI design
+
+## Technology Stack
+
+- Electron
+- Vue 3 + TypeScript
+- Vite
+- ESLint + Prettier for code quality
