@@ -3,26 +3,26 @@
     <h2>我的书架</h2>
 
     <!-- 加载状态 -->
-    <div class="loading" v-if="loading">
+    <div v-if="loading" class="loading">
       <p>正在加载书架数据...</p>
     </div>
 
     <!-- 错误状态 -->
-    <div class="error" v-else-if="error">
+    <div v-else-if="error" class="error">
       <p>加载书架数据失败: {{ error }}</p>
       <button @click="loadBookshelfData">重新加载</button>
     </div>
 
     <!-- 添加小说表单 -->
-    <div class="add-novel-form" v-else-if="showAddForm">
+    <div v-else-if="showAddForm" class="add-novel-form">
       <h3>{{ editingNovel ? '编辑小说' : '添加小说' }}</h3>
       <form @submit.prevent="saveNovel">
         <div class="form-group">
           <label for="title">书名:</label>
           <input
-            type="text"
             id="title"
             v-model="currentNovel.title"
+            type="text"
             required
             placeholder="请输入小说名称"
           />
@@ -31,9 +31,9 @@
         <div class="form-group">
           <label for="author">作者:</label>
           <input
-            type="text"
             id="author"
             v-model="currentNovel.author"
+            type="text"
             required
             placeholder="请输入作者姓名"
           />
@@ -60,9 +60,9 @@
         <div class="form-group">
           <label for="cover">封面链接:</label>
           <input
-            type="text"
             id="cover"
             v-model="currentNovel.cover"
+            type="text"
             placeholder="请输入封面图片链接"
           />
         </div>
@@ -75,23 +75,23 @@
     </div>
 
     <!-- 添加小说按钮 -->
-    <div class="actions-bar" v-else-if="!showAddForm">
+    <div v-else-if="!showAddForm" class="actions-bar">
       <button class="add-btn" @click="showAddNovelForm">+ 添加小说</button>
-      <button class="refresh-btn" @click="loadBookshelfData" :disabled="loading">刷新书架</button>
+      <button class="refresh-btn" :disabled="loading" @click="loadBookshelfData">刷新书架</button>
     </div>
 
     <!-- 小说列表 -->
-    <div class="novel-list" v-if="!loading && !error && bookshelf.length > 0">
+    <div v-if="!loading && !error && bookshelf.length > 0" class="novel-list">
       <div
         v-for="novel in bookshelf"
         :key="novel.id"
         class="novel-item"
         @click="selectNovel(novel)"
       >
-        <div class="novel-cover" v-if="novel.cover">
-          <img :src="novel.cover" :alt="novel.title" @error="handleImageError($event)">
+        <div v-if="novel.cover" class="novel-cover">
+          <img :src="novel.cover" :alt="novel.title" @error="handleImageError($event)" />
         </div>
-        <div class="novel-cover placeholder" v-else>
+        <div v-else class="novel-cover placeholder">
           <span>暂无封面</span>
         </div>
         <div class="novel-info">
@@ -108,7 +108,7 @@
     </div>
 
     <!-- 空书架提示 -->
-    <div class="empty-bookshelf" v-else-if="!loading && !error">
+    <div v-else-if="!loading && !error" class="empty-bookshelf">
       <p>书架还是空的，快添加你喜欢的小说吧！</p>
     </div>
   </div>
@@ -153,7 +153,7 @@ const showAddNovelForm = (): void => {
 }
 
 // 重置表单
-const resetForm = () : void => {
+const resetForm = (): void => {
   editingNovel.value = null
   currentNovel.id = Date.now()
   currentNovel.title = ''
@@ -164,10 +164,10 @@ const resetForm = () : void => {
 }
 
 // 保存小说（添加或更新）
-const saveNovel = () : void => {
+const saveNovel = (): void => {
   if (editingNovel.value) {
     // 更新现有小说
-    const index = bookshelf.value.findIndex(novel => novel.id === editingNovel.value!.id)
+    const index = bookshelf.value.findIndex((novel) => novel.id === editingNovel.value!.id)
     if (index !== -1) {
       bookshelf.value[index] = { ...currentNovel }
     }
@@ -185,22 +185,22 @@ const saveNovel = () : void => {
 }
 
 // 取消编辑
-const cancelEdit = () : void => {
+const cancelEdit = (): void => {
   resetForm()
   showAddForm.value = false
 }
 
 // 编辑小说
-const editNovel = (novel: Novel) : void => {
+const editNovel = (novel: Novel): void => {
   editingNovel.value = novel
   Object.assign(currentNovel, { ...novel })
   showAddForm.value = true
 }
 
 // 删除小说
-const removeNovel = (id: number) : void => {
+const removeNovel = (id: number): void => {
   if (confirm('确定要从书架中删除这本小说吗？')) {
-    bookshelf.value = bookshelf.value.filter(novel => novel.id !== id)
+    bookshelf.value = bookshelf.value.filter((novel) => novel.id !== id)
     saveToLocalStorage()
   }
 }
@@ -220,7 +220,7 @@ const handleImageError = (event: Event): void => {
 }
 
 // 保存到本地存储
-const saveToLocalStorage = () : void => {
+const saveToLocalStorage = (): void => {
   try {
     localStorage.setItem('novelBookshelf', JSON.stringify(bookshelf.value))
   } catch (e) {
@@ -229,7 +229,7 @@ const saveToLocalStorage = () : void => {
 }
 
 // 从本地存储加载
-const loadFromLocalStorage = () : void => {
+const loadFromLocalStorage = (): void => {
   try {
     const saved = localStorage.getItem('novelBookshelf')
     if (saved) {
@@ -252,7 +252,7 @@ const loadBookshelfData = async (): Promise<void> => {
       // 转换API数据为本地Novel格式
       bookshelf.value = response.map((item: BookInfoBean) => {
         // 从bookInfoBean中提取信息，如果没有则使用默认值
-        const bookInfo = item || {} as BookInfoBean
+        const bookInfo = item || ({} as BookInfoBean)
 
         return {
           id: 22,
@@ -269,7 +269,7 @@ const loadBookshelfData = async (): Promise<void> => {
       // 保存到本地存储作为缓存
       saveToLocalStorage()
     } else {
-      error.value = response.errorMsg || '未知错误'
+      error.value = response || '未知错误'
       // 如果API失败，尝试从本地加载
       loadFromLocalStorage()
     }
@@ -301,12 +301,14 @@ onMounted(() => {
   margin-bottom: 20px;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 20px;
 }
 
-.loading p, .error p {
+.loading p,
+.error p {
   margin: 0 0 15px 0;
 }
 
@@ -319,7 +321,8 @@ onMounted(() => {
   cursor: pointer;
 }
 
-.add-btn, .refresh-btn {
+.add-btn,
+.refresh-btn {
   background-color: #42b883;
   color: white;
   border: none;
@@ -336,7 +339,8 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-.add-btn:hover, .refresh-btn:hover:not(:disabled) {
+.add-btn:hover,
+.refresh-btn:hover:not(:disabled) {
   background-color: #359c6d;
 }
 
@@ -394,21 +398,21 @@ onMounted(() => {
   font-size: 14px;
 }
 
-.form-actions button[type="submit"] {
+.form-actions button[type='submit'] {
   background-color: #42b883;
   color: white;
 }
 
-.form-actions button[type="submit"]:hover {
+.form-actions button[type='submit']:hover {
   background-color: #359c6d;
 }
 
-.form-actions button[type="button"] {
+.form-actions button[type='button'] {
   background-color: #6c757d;
   color: white;
 }
 
-.form-actions button[type="button"]:hover {
+.form-actions button[type='button']:hover {
   background-color: #5a6268;
 }
 
