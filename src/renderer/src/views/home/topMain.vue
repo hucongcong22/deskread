@@ -12,19 +12,20 @@ const closeWindow = (): void => {
   <div class="top-main-container">
     <el-input v-model="input" style="width: 240px" placeholder="查询书籍" class="search-input" />
     <el-button type="primary" class="import-button"> 导入书籍 </el-button>
-    <el-button type="danger" class="close-button" @click="closeWindow">
+    <el-button type="" class="close-button" @click="closeWindow">
       <el-icon>
         <CloseBold />
       </el-icon>
     </el-button>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .top-main-container {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 100%;
+  height: auto;
+  padding: 10px 16px;
   -webkit-app-region: no-drag;
 }
 

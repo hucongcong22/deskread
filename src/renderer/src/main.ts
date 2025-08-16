@@ -7,9 +7,11 @@ import 'element-plus/dist/index.css'
 // Create the Vue application instance
 const app = createApp(App)
 
+// Use Element Plus
+app.use(ElementPlus)
+
 // Mount the application to the DOM
 app.mount('#app')
-app.use(ElementPlus)
 
 // For debugging purposes in development
 if (import.meta.env.DEV) {

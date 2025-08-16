@@ -290,7 +290,7 @@ onMounted(() => {
 
 <style scoped>
 .bookshelf-container {
-  width: 100%;
+  width: auto;
   margin: 20px auto;
   padding: 20px;
 }
