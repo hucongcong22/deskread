@@ -34,9 +34,8 @@ code {
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
-  -webkit-app-region: drag;
 }
 
 /* Make interactive elements non-draggable */

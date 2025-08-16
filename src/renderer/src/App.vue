@@ -1,45 +1,71 @@
 <script setup lang="ts">
 import Bookshelf from './views/bookshelf/Bookshelf.vue'
-const closeWindow = (): void => {
-  window.electron.ipcRenderer.send('close-window')
-}
+import topMain from './views/home/topMain.vue'
+import leftMain from './views/home/leftMain.vue'
 </script>
 
 <template>
-  <div class="title-bar">
-    <button class="close-btn" @click="closeWindow">×</button>
-  </div>
-  <div class="app-container">
-    <Bookshelf />
-  </div>
+
+    <el-container>
+      <el-header class="fixed-header"><topMain /></el-header>
+      <el-container>
+        <el-aside class="fixed-aside"><leftMain /></el-aside>
+        <el-main class="main-content"><Bookshelf /></el-main>
+      </el-container>
+    </el-container>
+
 </template>
 
-<style scoped>
-.title-bar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px;
-  -webkit-app-region: drag;
-}
+<style scoped lang="less">
 
-.close-btn {
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  box-sizing: border-box;
   -webkit-app-region: no-drag;
-  background: #ff5f56;
-  border: none;
-  color: white;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.app-container {
-  padding: 10px;
-  height: calc(100vh - 36px);
+.fixed-aside {
+  position: fixed;
+  left: 0;
+  top: 60px;
+  bottom: 0;
+  width: 15%;
+  z-index: 999;
+  background-color: #fff;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  padding: 20px 0;
+  box-sizing: border-box;
+  -webkit-app-region: no-drag;
+}
+
+.main-content {
+  margin-top: 60px;
+  margin-left: 15%;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  -webkit-app-region: no-drag;
+}
+
+// 当屏幕较小时的适配
+@media (max-width: 768px) {
+  .fixed-aside {
+    width: 60px;
+  }
+
+  .main-content {
+    margin-left: 60px;
+  }
 }
 </style>
