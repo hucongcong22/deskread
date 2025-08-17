@@ -53,8 +53,8 @@ function createWindow(): void {
 // 创建小说阅读窗口
 function createReaderWindow(novelData: NovelData): void {
   const readerWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
+    width: 1280,
+    height: 720,
     show: false,
     autoHideMenuBar: true,
     frame: false, // 使用无边框窗口

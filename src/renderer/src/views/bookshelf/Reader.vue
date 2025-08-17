@@ -1,6 +1,5 @@
 <template>
   <div class="reader-container">
-    <WindowControls />
     <!-- 书籍信息和章节选择 -->
     <div v-if="currentNovel" class="reader-header">
       <h2>{{ currentNovel.title }}</h2>
@@ -63,7 +62,6 @@
 import { ref, onMounted } from 'vue'
 import { getBookChapters, getBookChapterContent } from '@renderer/service/bookshelf/bookshelf'
 import { ElButton, ElSelect, ElOption } from 'element-plus'
-import WindowControls from '@renderer/components/window/WindowControls.vue'
 
 interface Novel {
   id: number
@@ -179,7 +177,7 @@ onMounted(() => {
         error.value = '解析小说信息失败'
       }
     }
-  },50)
+  }, 50)
 
 })
 </script>
