@@ -2,19 +2,19 @@
   <div class="book-content-container">
     <!-- 返回按钮 -->
     <div class="back-button-container">
-      <el-button @click="goBack" type="primary" size="small" round>返回书架</el-button>
+      <el-button type="primary" size="small" round @click="goBack">返回书架</el-button>
     </div>
 
     <!-- 书籍信息和章节选择 -->
-    <div class="book-header" v-if="currentNovel">
+    <div v-if="currentNovel" class="book-header">
       <h2>{{ currentNovel.title }}</h2>
       <p>作者: {{ currentNovel.author }}</p>
       <div class="chapter-selector">
-        <el-select 
-          v-model="selectedChapterIndex" 
-          placeholder="请选择章节" 
-          @change="loadChapterContent"
+        <el-select
+          v-model="selectedChapterIndex"
+          placeholder="请选择章节"
           filterable
+          @change="loadChapterContent"
         >
           <el-option
             v-for="(chapter, index) in chapters"
@@ -27,7 +27,7 @@
     </div>
 
     <!-- 章节内容展示 -->
-    <div class="chapter-content" v-if="chapterContent">
+    <div v-if="chapterContent" class="chapter-content">
       <div class="content-text" v-html="formatContent(chapterContent)"></div>
     </div>
 
@@ -42,20 +42,20 @@
     </div>
 
     <!-- 底部导航按钮 -->
-    <div class="navigation-buttons" v-if="chapters.length > 0">
-      <el-button 
-        @click="loadPreviousChapter" 
+    <div v-if="chapters.length > 0" class="navigation-buttons">
+      <el-button
         :disabled="selectedChapterIndex <= 0"
-        type="primary" 
+        type="primary"
         size="small"
+        @click="loadPreviousChapter"
       >
         上一章
       </el-button>
-      <el-button 
-        @click="loadNextChapter" 
+      <el-button
         :disabled="selectedChapterIndex >= chapters.length - 1"
-        type="primary" 
+        type="primary"
         size="small"
+        @click="loadNextChapter"
       >
         下一章
       </el-button>
@@ -119,11 +119,12 @@ const loadChapterList = async (bookUrl: string) => {
     error.value = null
     const chapterList = await getBookChapters(0, bookUrl)
     chapters.value = chapterList
-    
+
     // 如果有指定章节索引，则使用指定的，否则使用小说的当前章节
-    const chapterIndex = Number(route.query.chapterIndex) || currentNovel.value?.durChapterIndex || 0
+    const chapterIndex =
+      Number(route.query.chapterIndex) || currentNovel.value?.durChapterIndex || 0
     selectedChapterIndex.value = Math.min(chapterIndex, chapters.value.length - 1)
-    
+
     // 加载章节内容
     if (chapters.value.length > 0) {
       await loadChapterContent(selectedChapterIndex.value)
@@ -140,7 +141,7 @@ const loadChapterContent = async (index: number) => {
   if (!currentNovel.value?.bookUrl || index < 0 || index >= chapters.value.length) {
     return
   }
-  
+
   try {
     loading.value = true
     error.value = null
@@ -148,7 +149,7 @@ const loadChapterContent = async (index: number) => {
     const content = await getBookChapterContent(chapter.index, currentNovel.value.bookUrl)
     chapterContent.value = content
     selectedChapterIndex.value = index
-    
+
     // 更新URL中的章节索引
     router.replace({
       ...route,
@@ -184,7 +185,7 @@ onMounted(() => {
   const novelData = route.params.novel ? JSON.parse(route.params.novel as string) : null
   if (novelData) {
     currentNovel.value = novelData
-    
+
     // 如果有bookUrl，则加载章节列表
     if (novelData.bookUrl) {
       loadChapterList(novelData.bookUrl)
@@ -256,16 +257,16 @@ onMounted(() => {
   .book-content-container {
     padding: 15px;
   }
-  
+
   .content-text {
     font-size: 14px;
   }
-  
+
   .navigation-buttons {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .navigation-buttons .el-button {
     width: 100%;
   }
