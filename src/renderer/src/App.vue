@@ -66,11 +66,11 @@ import leftMain from './views/home/leftMain.vue'
   .app-sidebar {
     width: 70px;
   }
-  
+
   .app-header {
     height: 60px;
   }
-  
+
   .app-main {
     padding: 16px;
   }
@@ -82,12 +82,12 @@ import leftMain from './views/home/leftMain.vue'
     width: 0;
     overflow: hidden;
   }
-  
+
   .app-main {
     margin-left: 0;
     padding: 12px;
   }
-  
+
   .app-header {
     padding: 0 12px;
   }

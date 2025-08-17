@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Bookshelf from '../views/bookshelf/Bookshelf.vue'
+import BookContent from '../views/bookshelf/BookContent.vue'
 
 const routes = [
   {
@@ -11,6 +12,12 @@ const routes = [
     name: 'Bookshelf',
     component: Bookshelf,
     props: (route) => ({ groupId: route.query.groupId || -1 })
+  },
+  {
+    path: '/book-content/:novel',
+    name: 'BookContent',
+    component: BookContent,
+    props: true
   }
 ]
 

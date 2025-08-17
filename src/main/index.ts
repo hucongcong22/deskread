@@ -36,6 +36,54 @@ function createWindow(): void {
   }
 }
 
+// 创建小说阅读窗口
+function createReaderWindow(novelData: any): void {
+  const readerWindow = new BrowserWindow({
+    width: 1000,
+    height: 800,
+    show: false,
+    autoHideMenuBar: true,
+    frame: true, // 保持窗口边框，方便用户操作
+    ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+
+  // 在页面加载前清除可能存在的旧数据
+  readerWindow.webContents.session
+    .clearStorageData({
+      storages: ['localstorage']
+    })
+    .then(() => {
+      // 将小说数据传递给新窗口
+      const novelDataString = JSON.stringify(novelData)
+      readerWindow.webContents.executeJavaScript(`
+      localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
+    `)
+    })
+    .catch((error) => {
+      console.error('清除存储数据时出错:', error)
+      // 如果清除失败，仍然尝试设置数据
+      const novelDataString = JSON.stringify(novelData)
+      readerWindow.webContents.executeJavaScript(`
+      localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
+    `)
+    })
+
+  readerWindow.on('ready-to-show', () => {
+    readerWindow.show()
+  })
+
+  // 加载阅读器页面
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    readerWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/reader`)
+  } else {
+    readerWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: '#/reader' })
+  }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -59,6 +107,11 @@ app.whenReady().then(() => {
     if (window) {
       window.close()
     }
+  })
+
+  // Handle create reader window request
+  ipcMain.on('create-reader-window', (event, novelData) => {
+    createReaderWindow(novelData)
   })
 
   createWindow()

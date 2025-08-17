@@ -93,7 +93,7 @@ const closeWindow = (): void => {
   .top-main-container {
     padding: 0 16px;
   }
-  
+
   .search-input {
     max-width: 200px;
   }
@@ -104,16 +104,16 @@ const closeWindow = (): void => {
     gap: 12px;
     padding: 0 12px;
   }
-  
+
   .search-input {
     max-width: 150px;
   }
-  
+
   .import-button {
     padding: 6px 12px;
     font-size: 14px;
   }
-  
+
   .close-button {
     width: 28px;
     height: 28px;

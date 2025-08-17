@@ -47,8 +47,13 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { getBookshelf, BookInfoBean, getBookChapters, getBookChapterContent } from '@renderer/service/bookshelf/bookshelf'
+import { useRoute, useRouter } from 'vue-router'
+import {
+  getBookshelf,
+  BookInfoBean,
+  getBookChapters,
+  getBookChapterContent
+} from '@renderer/service/bookshelf/bookshelf'
 
 interface Novel {
   id: number
@@ -79,7 +84,7 @@ const editingNovel = ref<Novel | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const route = useRoute()
-const bookchapter = ref<BookChapter[]>([])
+const router = useRouter()
 
 const currentNovel = reactive({
   id: 0,
@@ -110,26 +115,35 @@ const removeNovel = (id: number): void => {
   }
 }
 
-// 选择小说（查看详情）
+// 选择小说（在新窗口中打开）
 const selectNovel = (novel: Novel): void => {
-  console.log('Selected novel:', novel)
-  // 这里可以添加跳转到小说详情页的逻辑
-  // 先获取章节信息
-  if (novel.bookUrl) {
-    getBookChapters(0, novel.bookUrl).then((chapters) => {
-      bookchapter.value = chapters.map((chapter) => ({
-        ...chapter
-      }))
-      const durChapterIndex = novel.durChapterIndex || 0
-      const firstChapter = bookchapter.value[durChapterIndex]
-      if (firstChapter) {
-        getBookChapterContent(firstChapter.index, firstChapter.bookUrl).then((content) => {
-          console.log('获取到的章节内容:', content)
-        })
+  // 创建一个可序列化的对象
+  const serializableNovel = {
+    id: novel.id,
+    title: novel.title,
+    author: novel.author,
+    description: novel.description,
+    status: novel.status,
+    cover: novel.cover,
+    lastRead: novel.lastRead,
+    origin: novel.origin,
+    bookUrl: novel.bookUrl,
+    durChapterIndex: novel.durChapterIndex
+  }
+
+  if (window.api && typeof window.api.createReaderWindow === 'function') {
+    window.api.createReaderWindow(serializableNovel)
+  } else {
+    // 如果无法创建新窗口，回退到原来的路由跳转方式
+    router.push({
+      name: 'BookContent',
+      params: {
+        novel: JSON.stringify(serializableNovel)
+      },
+      query: {
+        chapterIndex: novel.durChapterIndex?.toString() || '0'
       }
     })
-  } else {
-    console.error('书籍 URL 不存在')
   }
 }
 
@@ -592,7 +606,7 @@ watch(
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
   }
-  
+
   .novel-cover {
     height: 160px;
   }
@@ -603,19 +617,19 @@ watch(
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .novel-cover {
     height: 200px;
   }
-  
+
   .actions-bar {
     flex-direction: column;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-  
+
   .form-actions button {
     width: 100%;
   }

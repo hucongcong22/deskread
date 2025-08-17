@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios'
 
 //
@@ -136,7 +135,7 @@ export const req = {
   cancel: <T = unknown>(config: RequestParams) => {
     const cancelTokenSource: CancelTokenSource = axios.CancelToken.source()
     const newConfig = { ...config, cancelToken: cancelTokenSource.token }
-    request<T>(newConfig).catch(err => {
+    request<T>(newConfig).catch((err) => {
       if (axios.isCancel(err)) {
         console.warn('请求已取消:', err.message)
       }
