@@ -3,6 +3,20 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+// 定义小说数据接口
+interface NovelData {
+  id: number
+  title: string
+  author: string
+  description: string
+  status: string
+  cover?: string
+  lastRead?: Date
+  origin?: string
+  bookUrl?: string
+  durChapterIndex?: number
+}
+
 function createWindow(): void {
   // Create the browser window with tablet-friendly dimensions and no frame.
   const mainWindow = new BrowserWindow({
@@ -37,7 +51,7 @@ function createWindow(): void {
 }
 
 // 创建小说阅读窗口
-function createReaderWindow(novelData: any): void {
+function createReaderWindow(novelData: NovelData): void {
   const readerWindow = new BrowserWindow({
     width: 1000,
     height: 800,
@@ -61,7 +75,9 @@ function createReaderWindow(novelData: any): void {
       const novelDataString = JSON.stringify(novelData)
       readerWindow.webContents.executeJavaScript(`
       localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
-    `)
+    `).catch((error) => {
+        console.error('执行JavaScript设置小说数据时出错:', error)
+      })
     })
     .catch((error) => {
       console.error('清除存储数据时出错:', error)
@@ -69,7 +85,9 @@ function createReaderWindow(novelData: any): void {
       const novelDataString = JSON.stringify(novelData)
       readerWindow.webContents.executeJavaScript(`
       localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
-    `)
+    `).catch((error) => {
+        console.error('执行JavaScript设置小说数据时出错:', error)
+      })
     })
 
   readerWindow.on('ready-to-show', () => {
