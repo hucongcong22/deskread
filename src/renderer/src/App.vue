@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Bookshelf from './views/bookshelf/Bookshelf.vue'
 import topMain from './views/home/topMain.vue'
 import leftMain from './views/home/leftMain.vue'
 </script>
@@ -14,7 +13,7 @@ import leftMain from './views/home/leftMain.vue'
         <leftMain />
       </el-aside>
       <el-main class="app-main">
-        <Bookshelf />
+        <router-view />
       </el-main>
     </el-container>
   </el-container>

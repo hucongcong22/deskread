@@ -77,7 +77,13 @@ loadBookshelfGroups()
 
 const handleMenuItemClick = (item: string): void => {
   activeIndex.value = item
-  if (item === '漫画') {
+  if (item === '书架') {
+    // 点击书架显示所有书籍
+    router.push({
+      path: '/bookshelf',
+      query: { groupId: -1 }
+    })
+  } else if (item === '漫画') {
     router.push('/comics')
   } else if (item === 'RSS') {
     router.push('/rss')
@@ -88,7 +94,7 @@ const handleMenuItemClick = (item: string): void => {
 
 const handleGroupClick = (group: Group): void => {
   activeIndex.value = 'shelf-' + group.groupId
-  // 跳转到对应的书架分组页面
+  // 跳转到对应的书架分组页面，使用实际的 groupId
   router.push({
     path: '/bookshelf',
     query: { groupId: group.groupId }
@@ -113,6 +119,7 @@ const handleSettingsClick = (): void => {
 
 <style scoped lang="less">
 .left-main-container {
+  
   display: flex;
   flex-direction: column;
   height: auto;

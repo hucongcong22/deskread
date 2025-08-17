@@ -115,7 +115,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { getBookshelf, BookInfoBean } from '@renderer/service/bookshelf/bookshelf'
 
 interface Novel {
@@ -136,6 +137,7 @@ const showAddForm = ref(false)
 const editingNovel = ref<Novel | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
+const route = useRoute()
 
 const currentNovel = reactive({
   id: 0,
@@ -145,6 +147,12 @@ const currentNovel = reactive({
   status: '连载中',
   cover: ''
 })
+
+// 获取当前groupId
+const getCurrentGroupId = (): number => {
+  const groupId = route.query.groupId
+  return groupId === undefined || groupId === null ? -1 : Number(groupId)
+}
 
 // 显示添加小说表单
 const showAddNovelForm = (): void => {
@@ -249,8 +257,19 @@ const loadBookshelfData = async (): Promise<void> => {
     const response = await getBookshelf()
     console.log('API数据:', response)
     if (response) {
+      // 获取当前groupId
+      const currentGroupId = getCurrentGroupId()
+      
+      // 根据groupId过滤数据
+      let filteredBooks = response
+      if (currentGroupId !== -1) {
+        // 如果groupId不为-1，则只显示该分组的书籍
+        filteredBooks = response.filter((item: BookInfoBean) => item.group === currentGroupId)
+      }
+      // 如果groupId为-1或未指定，则显示所有书籍（不过滤）
+
       // 转换API数据为本地Novel格式
-      bookshelf.value = response.map((item: BookInfoBean) => {
+      bookshelf.value = filteredBooks.map((item: BookInfoBean) => {
         // 从bookInfoBean中提取信息，如果没有则使用默认值
         const bookInfo = item || ({} as BookInfoBean)
 
@@ -286,6 +305,14 @@ const loadBookshelfData = async (): Promise<void> => {
 onMounted(() => {
   loadBookshelfData()
 })
+
+// 监听路由变化
+watch(
+  () => route.query.groupId,
+  () => {
+    loadBookshelfData()
+  }
+)
 </script>
 
 <style scoped>
