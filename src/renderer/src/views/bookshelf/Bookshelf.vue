@@ -110,7 +110,8 @@ const selectNovel = (novel: Novel): void => {
 const handleImageError = (event: Event): void => {
   const target = event.target as HTMLImageElement
   // 设置一个默认的占位图 URL，防止控制台报错
-  target.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+  // target.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+  target.src = getRandomDefaultCover()
 }
 
 // 保存到本地存储
@@ -132,6 +133,27 @@ const loadFromLocalStorage = (): void => {
   } catch (e) {
     console.error('加载书架数据失败:', e)
   }
+}
+
+// 处理图片路径的问题
+const processImagePaths = (imgurl: string): string => {
+  if (imgurl.startsWith('http://') || imgurl.startsWith('https://')) {
+    return imgurl
+  } else {
+    imgurl = 'http://192.168.5.12:4396' + imgurl
+    return imgurl
+  }
+}
+
+// 随机默认图片
+const getRandomDefaultCover = (): string => {
+  const defaultCovers = [
+    '/src/assets/default/covers/132917583_p10.png',
+    '/src/assets/default/covers/132917583_p14.png',
+    '/src/assets/default/covers/132917583_p17.png'
+  ]
+  const randomIndex = Math.floor(Math.random() * defaultCovers.length)
+  return defaultCovers[randomIndex]
 }
 
 // 从API加载书架数据
@@ -158,6 +180,13 @@ const loadBookshelfData = async (): Promise<void> => {
       bookshelf.value = filteredBooks.map((item: BookInfoBean) => {
         // 从bookInfoBean中提取信息，如果没有则使用默认值
         const bookInfo = item || ({} as BookInfoBean)
+        let imgurl = bookInfo.coverUrl || ''
+
+        if (imgurl) {
+          imgurl = processImagePaths(imgurl)
+        } else {
+          imgurl = getRandomDefaultCover()
+        }
 
         return {
           id: 22,
@@ -165,12 +194,11 @@ const loadBookshelfData = async (): Promise<void> => {
           author: bookInfo.author || '未知作者',
           description: bookInfo.intro || '暂无简介',
           status: bookInfo.isInShelf ? '连载中' : '已完结',
-          cover: bookInfo.coverUrl || '',
+          cover: imgurl,
           origin: item.origin,
           bookUrl: item.bookUrl
         }
       })
-
       // 保存到本地存储作为缓存
       saveToLocalStorage()
     } else {
