@@ -102,7 +102,7 @@ const loading = ref<boolean>(false)
 const error = ref<string | null>(null)
 
 // 返回书架
-const goBack = () => {
+const goBack = (): void => {
   router.go(-1)
 }
 
@@ -113,7 +113,7 @@ const formatContent = (content: string): string => {
 }
 
 // 加载章节列表
-const loadChapterList = async (bookUrl: string) => {
+const loadChapterList = async (bookUrl: string): Promise<void> => {
   try {
     loading.value = true
     error.value = null
@@ -137,7 +137,7 @@ const loadChapterList = async (bookUrl: string) => {
 }
 
 // 加载章节内容
-const loadChapterContent = async (index: number) => {
+const loadChapterContent = async (index: number): Promise<void> => {
   if (!currentNovel.value?.bookUrl || index < 0 || index >= chapters.value.length) {
     return
   }
@@ -151,7 +151,7 @@ const loadChapterContent = async (index: number) => {
     selectedChapterIndex.value = index
 
     // 更新URL中的章节索引
-    router.replace({
+    await router.replace({
       ...route,
       query: {
         ...route.query,
@@ -166,14 +166,14 @@ const loadChapterContent = async (index: number) => {
 }
 
 // 加载上一章
-const loadPreviousChapter = async () => {
+const loadPreviousChapter = async (): Promise<void> => {
   if (selectedChapterIndex.value > 0) {
     await loadChapterContent(selectedChapterIndex.value - 1)
   }
 }
 
 // 加载下一章
-const loadNextChapter = async () => {
+const loadNextChapter = async (): Promise<void> => {
   if (selectedChapterIndex.value < chapters.value.length - 1) {
     await loadChapterContent(selectedChapterIndex.value + 1)
   }
