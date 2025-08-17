@@ -48,12 +48,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  getBookshelf,
-  BookInfoBean,
-  getBookChapters,
-  getBookChapterContent
-} from '@renderer/service/bookshelf/bookshelf'
+import { getBookshelf, BookInfoBean } from '@renderer/service/bookshelf/bookshelf'
 
 interface Novel {
   id: number
@@ -67,16 +62,6 @@ interface Novel {
   bookUrl?: string
   durChapterIndex?: number //当前的阅读章节
 }
-
-interface BookChapter {
-  url: string
-  title: string
-  isVolume: boolean
-  baseUrl: string
-  bookUrl: string
-  index: number
-}
-
 // 响应式数据
 const bookshelf = ref<Novel[]>([])
 const showAddForm = ref(false)

@@ -161,7 +161,7 @@ const loadNextChapter = async (): Promise<void> => {
 onMounted(() => {
   // 从localStorage获取小说信息
   const novelData = localStorage.getItem('selectedNovel')
-
+  console.log('novelData', novelData)
   if (!novelData) {
     error.value = '未找到小说信息'
   } else {
