@@ -159,24 +159,26 @@ const loadNextChapter = async (): Promise<void> => {
 
 // 组件挂载时加载数据
 onMounted(() => {
-  // 从localStorage获取小说信息
-  const novelData = localStorage.getItem('selectedNovel')
-  console.log('novelData', novelData)
-  if (!novelData) {
-    error.value = '未找到小说信息'
-  } else {
-    try {
-      currentNovel.value = JSON.parse(novelData)
-
-      // 如果有bookUrl，则加载章节列表
-      if (currentNovel.value != null && currentNovel.value.bookUrl) {
-        loadChapterList(currentNovel.value.bookUrl)
+  // 组件加载，不一定能拿到这个值需要等一段时间
+  setTimeout(() => {
+    const novelData = localStorage.getItem('selectedNovel')
+    console.log('novelData', novelData)
+    if (!novelData) {
+      error.value = '未找到小说信息'
+    } else {
+      try {
+        currentNovel.value = JSON.parse(novelData)
+        // 如果有bookUrl，则加载章节列表
+        if (currentNovel.value != null && currentNovel.value.bookUrl) {
+          loadChapterList(currentNovel.value.bookUrl)
+        }
+      } catch (_e) {
+        console.error('解析小说信息失败:', _e)
+        error.value = '解析小说信息失败'
       }
-    } catch (_e) {
-      console.error('解析小说信息失败:', _e)
-      error.value = '解析小说信息失败'
     }
-  }
+  },50)
+
 })
 </script>
 
