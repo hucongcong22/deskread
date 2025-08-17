@@ -58,14 +58,18 @@ const bookshelfGroups = ref<Group[]>([])
 // 在组件加载时获取书架分组信息
 const loadBookshelfGroups = async (): Promise<void> => {
   const groups = await getBookshelfGroups()
+  console.log('获取到的书架分组信息:', groups)
   if (groups) {
-    bookshelfGroups.value = groups.map((g: Group) => ({
-      groupId: g.groupId,
-      groupName: g.groupName,
-      order: g.order,
-      show: g.show
-    }))
+    bookshelfGroups.value = groups
+      .filter((g: Group) => g.groupId >= -1 && g.show)
+      .map((g: Group) => ({
+        groupId: g.groupId,
+        groupName: g.groupName,
+        order: g.order,
+        show: g.show
+      }))
   }
+  console.log('书架分组信息:', bookshelfGroups.value)
 }
 
 // 首次加载时获取分组信息
@@ -190,8 +194,13 @@ const handleSettingsClick = (): void => {
   }
 
   .el-menu-item {
-    padding-left: 24px !important;
+    padding-left: 48px !important;
     min-width: auto;
+    text-align: left;
+    margin: 2px 12px;
+    &:hover {
+      padding-left: 54px !important;
+    }
   }
 }
 
@@ -200,7 +209,22 @@ const handleSettingsClick = (): void => {
   .left-main-container {
     padding: 16px 0;
   }
-  
+  :deep(.el-sub-menu) {
+    .el-sub-menu__title {
+      margin: 4px 8px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+    }
+
+    .el-menu-item {
+      padding-left: 24px !important;
+
+      &:hover {
+        padding-left: 28px !important;
+      }
+    }
+  }
   :deep(.el-menu-item) {
     margin: 4px 8px;
     height: 40px;
@@ -213,7 +237,6 @@ const handleSettingsClick = (): void => {
   .left-main-container {
     padding: 12px 0;
   }
-  
   :deep(.el-menu-item) {
     margin: 4px 6px;
     height: 36px;
