@@ -1,5 +1,6 @@
 <template>
   <div class="bookshelf-container">
+    <WindowControls />
     <!-- 加载状态 -->
     <div v-if="loading" class="loading">
       <p>正在加载书架数据...</p>
@@ -49,6 +50,7 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBookshelf, BookInfoBean } from '@renderer/service/bookshelf/bookshelf'
+import WindowControls from '@renderer/components/window/WindowControls.vue'
 
 interface Novel {
   id: number
@@ -259,6 +261,7 @@ watch(
   width: auto;
   margin: 0 auto;
   padding: 0;
+  padding-top: 32px;
 }
 
 .bookshelf-container h2 {
@@ -269,6 +272,8 @@ watch(
   font-weight: 700;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--color-border);
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .loading,
@@ -424,30 +429,33 @@ watch(
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
+  padding: 0 24px 24px 24px;
 }
 
 .novel-item {
   display: flex;
   background-color: var(--color-card-bg);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 0;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 
 .novel-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--ev-c-primary);
 }
 
 .novel-cover {
   width: 100%;
-  height: 180px;
+  height: 200px;
   background-color: var(--color-background-mute);
-  border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,13 +465,18 @@ watch(
 
 .novel-cover.placeholder {
   background-color: var(--color-background-mute);
-  border: 1px dashed var(--color-border);
+  border: none;
 }
 
 .novel-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.novel-item:hover .novel-cover img {
+  transform: scale(1.05);
 }
 
 .novel-cover span {
@@ -475,27 +488,34 @@ watch(
 .novel-info {
   flex: 1;
   position: relative;
+  padding: 20px;
+  background: linear-gradient(to bottom, var(--color-card-bg), var(--color-background-soft));
 }
 
 .novel-info h3 {
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
   color: var(--ev-c-text-1);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .author {
-  margin: 8px 0;
+  margin: 0 0 12px 0;
   color: var(--ev-c-text-2);
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .description {
-  margin: 8px 0;
+  margin: 0 0 16px 0;
   color: var(--ev-c-text-2);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -503,12 +523,16 @@ watch(
 }
 
 .status {
-  margin: 8px 0 0 0;
+  margin: 0 0 16px 0;
   font-size: 12px;
   color: var(--ev-c-primary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  background-color: rgba(67, 97, 238, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
 }
 
 .novel-actions {
@@ -522,13 +546,14 @@ watch(
 }
 
 .novel-actions button {
-  padding: 6px 12px;
-  font-size: 12px;
+  padding: 8px 16px;
+  font-size: 13px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .novel-actions button:first-child {
@@ -539,6 +564,7 @@ watch(
 .novel-actions button:first-child:hover {
   background-color: #38b6e0;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(56, 182, 224, 0.3);
 }
 
 .novel-actions button:last-child {
@@ -549,41 +575,44 @@ watch(
 .novel-actions button:last-child:hover {
   background-color: #ef4444;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
 }
 
 .empty-bookshelf {
   text-align: center;
-  padding: 60px 20px;
+  padding: 80px 20px;
   color: var(--ev-c-text-2);
   background-color: var(--color-card-bg);
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   grid-column: 1 / -1;
+  border: 1px solid var(--color-border);
 }
 
 .empty-bookshelf p {
-  font-size: 18px;
-  margin: 0 0 24px 0;
+  font-size: 20px;
+  margin: 0 0 32px 0;
+  font-weight: 500;
 }
 
 .empty-bookshelf .add-btn {
   background-color: var(--ev-button-primary-bg);
   color: var(--ev-button-primary-text);
   border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
+  padding: 14px 28px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
   margin: 0 auto;
 }
 
 .empty-bookshelf .add-btn:hover {
   background-color: var(--ev-button-primary-hover-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(67, 97, 238, 0.3);
 }
 
 @media (max-width: 768px) {

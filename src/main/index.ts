@@ -57,7 +57,7 @@ function createReaderWindow(novelData: NovelData): void {
     height: 800,
     show: false,
     autoHideMenuBar: true,
-    frame: true, // 保持窗口边框，方便用户操作
+    frame: false, // 使用无边框窗口
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -124,6 +124,26 @@ app.whenReady().then(() => {
     const window = BrowserWindow.fromWebContents(event.sender)
     if (window) {
       window.close()
+    }
+  })
+
+  // Handle window minimize request
+  ipcMain.on('minimize-window', (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender)
+    if (window) {
+      window.minimize()
+    }
+  })
+
+  // Handle window maximize request
+  ipcMain.on('maximize-window', (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender)
+    if (window) {
+      if (window.isMaximized()) {
+        window.unmaximize()
+      } else {
+        window.maximize()
+      }
     }
   })
 

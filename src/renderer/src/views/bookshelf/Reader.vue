@@ -1,5 +1,6 @@
 <template>
   <div class="reader-container">
+    <WindowControls />
     <!-- 书籍信息和章节选择 -->
     <div v-if="currentNovel" class="reader-header">
       <h2>{{ currentNovel.title }}</h2>
@@ -62,6 +63,7 @@
 import { ref, onMounted } from 'vue'
 import { getBookChapters, getBookChapterContent } from '@renderer/service/bookshelf/bookshelf'
 import { ElButton, ElSelect, ElOption } from 'element-plus'
+import WindowControls from '@renderer/components/window/WindowControls.vue'
 
 interface Novel {
   id: number
@@ -190,43 +192,74 @@ onMounted(() => {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 40px;
 }
 
 .reader-header {
   text-align: center;
   margin-bottom: 30px;
   flex-shrink: 0;
+  padding: 20px;
+  background-color: var(--color-card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
 }
 
 .reader-header h2 {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   color: var(--ev-c-text-1);
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .reader-header p {
-  margin: 5px 0;
+  margin: 8px 0;
   color: var(--ev-c-text-2);
+  font-size: 16px;
 }
 
 .chapter-selector {
   margin-top: 20px;
 }
 
+.chapter-selector :deep(.el-select) {
+  width: 100%;
+}
+
+.chapter-selector :deep(.el-input__wrapper) {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chapter-selector :deep(.el-input__inner) {
+  font-size: 16px;
+  padding: 12px 16px;
+}
+
 .chapter-content {
   margin-bottom: 30px;
-  padding: 20px;
+  padding: 30px;
   background-color: var(--color-card-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   flex: 1;
   overflow-y: auto;
+  border: 1px solid var(--color-border);
 }
 
 .content-text {
   line-height: 1.8;
-  font-size: 16px;
+  font-size: 18px;
   color: var(--ev-c-text-1);
   white-space: pre-wrap;
+  font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.content-text p {
+  margin: 0 0 20px 0;
+  text-indent: 2em;
 }
 
 .loading,
@@ -240,23 +273,50 @@ onMounted(() => {
   justify-content: space-between;
   margin-top: 20px;
   flex-shrink: 0;
+  padding: 0 20px;
+}
+
+.navigation-buttons :deep(.el-button) {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.navigation-buttons :deep(.el-button):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-buttons :deep(.el-button--primary) {
+  background-color: var(--ev-button-primary-bg);
+  border-color: var(--ev-button-primary-bg);
+}
+
+.navigation-buttons :deep(.el-button--primary:hover) {
+  background-color: var(--ev-button-primary-hover-bg);
+  border-color: var(--ev-button-primary-hover-bg);
 }
 
 @media (max-width: 768px) {
   .reader-container {
     padding: 15px;
+    padding-top: 40px;
   }
 
   .content-text {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .navigation-buttons {
     flex-direction: column;
     gap: 10px;
+    padding: 0;
   }
 
-  .navigation-buttons {
+  .navigation-buttons :deep(.el-button) {
     width: 100%;
   }
 }

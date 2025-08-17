@@ -5,6 +5,15 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   createReaderWindow: (novelData: any) => {
     ipcRenderer.send('create-reader-window', novelData)
+  },
+  closeWindow: () => {
+    ipcRenderer.send('close-window')
+  },
+  minimizeWindow: () => {
+    ipcRenderer.send('minimize-window')
+  },
+  maximizeWindow: () => {
+    ipcRenderer.send('maximize-window')
   }
 }
 
