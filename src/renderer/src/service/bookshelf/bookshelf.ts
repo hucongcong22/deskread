@@ -30,6 +30,13 @@ export interface BookInfoBean {
   isInShelf: true
 }
 
+export interface BookGroupBean {
+  groupId: -1
+  groupName: '全部'
+  order: -10
+  show: true
+}
+
 // 获取书架数据
 export async function getBookshelf(refresh: number = 0): Promise<BookInfoBean[] | null> {
   try {
@@ -62,4 +69,9 @@ export function getBookshelfFromLocal(): BookInfoBean[] | null {
     console.error('从本地获取书架数据失败:', error)
     return null
   }
+}
+
+// 获取书架的分组的信息
+export async function getBookshelfGroups(): Promise<BookGroupBean[] | null> {
+  return await req.get<BookGroupBean[]>('/getBookGroups', {})
 }
