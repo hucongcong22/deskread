@@ -1,7 +1,5 @@
 <template>
   <div class="bookshelf-container">
-    <h2>我的书架</h2>
-
     <!-- 加载状态 -->
     <div v-if="loading" class="loading">
       <p>正在加载书架数据...</p>
@@ -11,73 +9,6 @@
     <div v-else-if="error" class="error">
       <p>加载书架数据失败: {{ error }}</p>
       <button @click="loadBookshelfData">重新加载</button>
-    </div>
-
-    <!-- 添加小说表单 -->
-    <div v-else-if="showAddForm" class="add-novel-form">
-      <h3>{{ editingNovel ? '编辑小说' : '添加小说' }}</h3>
-      <form @submit.prevent="saveNovel">
-        <div class="form-group">
-          <label for="title">书名:</label>
-          <input
-            id="title"
-            v-model="currentNovel.title"
-            type="text"
-            required
-            placeholder="请输入小说名称"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="author">作者:</label>
-          <input
-            id="author"
-            v-model="currentNovel.author"
-            type="text"
-            required
-            placeholder="请输入作者姓名"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="description">简介:</label>
-          <textarea
-            id="description"
-            v-model="currentNovel.description"
-            placeholder="请输入小说简介"
-          ></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="status">状态:</label>
-          <select id="status" v-model="currentNovel.status">
-            <option value="连载中">连载中</option>
-            <option value="已完结">已完结</option>
-            <option value="暂停更新">暂停更新</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="cover">封面链接:</label>
-          <input
-            id="cover"
-            v-model="currentNovel.cover"
-            type="text"
-            placeholder="请输入封面图片链接"
-          />
-        </div>
-
-        <div class="form-actions">
-          <button type="submit">{{ editingNovel ? '更新' : '添加' }}</button>
-          <button type="button" @click="cancelEdit">取消</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- 添加小说按钮 -->
-    <div v-else-if="!showAddForm" class="actions-bar">
-      <button class="add-btn" @click="showAddNovelForm">+ 添加小说</button>
-      <button class="refresh-btn" :disabled="loading" @click="loadBookshelfData">刷新书架</button>
     </div>
 
     <!-- 小说列表 -->
@@ -153,51 +84,6 @@ const getCurrentGroupId = (): number => {
   const groupId = route.query.groupId
   return groupId === undefined || groupId === null ? -1 : Number(groupId)
 }
-
-// 显示添加小说表单
-const showAddNovelForm = (): void => {
-  resetForm()
-  showAddForm.value = true
-}
-
-// 重置表单
-const resetForm = (): void => {
-  editingNovel.value = null
-  currentNovel.id = Date.now()
-  currentNovel.title = ''
-  currentNovel.author = ''
-  currentNovel.description = ''
-  currentNovel.status = '连载中'
-  currentNovel.cover = ''
-}
-
-// 保存小说（添加或更新）
-const saveNovel = (): void => {
-  if (editingNovel.value) {
-    // 更新现有小说
-    const index = bookshelf.value.findIndex((novel) => novel.id === editingNovel.value!.id)
-    if (index !== -1) {
-      bookshelf.value[index] = { ...currentNovel }
-    }
-  } else {
-    // 添加新小说
-    bookshelf.value.push({ ...currentNovel })
-  }
-
-  // 保存到本地存储
-  saveToLocalStorage()
-
-  // 重置表单并隐藏
-  resetForm()
-  showAddForm.value = false
-}
-
-// 取消编辑
-const cancelEdit = (): void => {
-  resetForm()
-  showAddForm.value = false
-}
-
 // 编辑小说
 const editNovel = (novel: Novel): void => {
   editingNovel.value = novel
@@ -259,7 +145,7 @@ const loadBookshelfData = async (): Promise<void> => {
     if (response) {
       // 获取当前groupId
       const currentGroupId = getCurrentGroupId()
-      
+
       // 根据groupId过滤数据
       let filteredBooks = response
       if (currentGroupId !== -1) {
