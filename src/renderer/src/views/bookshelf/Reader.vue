@@ -100,6 +100,7 @@ const formatContent = (content: string): string => {
 }
 
 // 加载章节列表
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const loadChapterList = async (bookUrl: string) => {
   try {
     loading.value = true
@@ -123,7 +124,7 @@ const loadChapterList = async (bookUrl: string) => {
 }
 
 // 加载章节内容
-const loadChapterContent = async (index: number) => {
+const loadChapterContent = async (index: number): Promise<void> => {
   if (!currentNovel.value?.bookUrl || index < 0 || index >= chapters.value.length) {
     return
   }
@@ -143,14 +144,14 @@ const loadChapterContent = async (index: number) => {
 }
 
 // 加载上一章
-const loadPreviousChapter = async () => {
+const loadPreviousChapter = async (): Promise<void> => {
   if (selectedChapterIndex.value > 0) {
     await loadChapterContent(selectedChapterIndex.value - 1)
   }
 }
 
 // 加载下一章
-const loadNextChapter = async () => {
+const loadNextChapter = async (): Promise<void> => {
   if (selectedChapterIndex.value < chapters.value.length - 1) {
     await loadChapterContent(selectedChapterIndex.value + 1)
   }
@@ -161,19 +162,20 @@ onMounted(() => {
   // 从localStorage获取小说信息
   const novelData = localStorage.getItem('selectedNovel')
 
-  if (novelData) {
+  if (!novelData) {
+    error.value = '未找到小说信息'
+  } else {
     try {
       currentNovel.value = JSON.parse(novelData)
 
       // 如果有bookUrl，则加载章节列表
-      if (currentNovel.value.bookUrl) {
+      if (currentNovel.value != null && currentNovel.value.bookUrl) {
         loadChapterList(currentNovel.value.bookUrl)
       }
-    } catch (e) {
+    } catch (_e) {
+      console.error('解析小说信息失败:', _e)
       error.value = '解析小说信息失败'
     }
-  } else {
-    error.value = '未找到小说信息'
   }
 })
 </script>
@@ -252,7 +254,7 @@ onMounted(() => {
     gap: 10px;
   }
 
-  .navigation-buttons .el-button {
+  .navigation-buttons {
     width: 100%;
   }
 }
