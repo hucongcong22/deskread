@@ -13,8 +13,8 @@ import WindowControls from '@renderer/components/window/WindowControls.vue'
 
 <style scoped>
 #reader-app {
-  height: 100vh;
-  width: 100vw;
+  height: 97vh;
+  width: 98vw;
   overflow: hidden;
 }
 </style>

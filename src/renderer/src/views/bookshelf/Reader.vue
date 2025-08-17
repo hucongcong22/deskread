@@ -184,13 +184,12 @@ onMounted(() => {
 
 <style scoped>
 .reader-container {
-  padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
+  overflow: hidden;
 }
 
 .reader-header {
