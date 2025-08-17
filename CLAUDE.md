@@ -16,6 +16,7 @@ This is an Electron application built with Vue 3 and TypeScript. It uses electro
 ## Common Commands
 
 ### Development
+
 ```bash
 # Install dependencies
 npm install
@@ -25,6 +26,7 @@ npm run dev
 ```
 
 ### Building
+
 ```bash
 # Build for current platform
 npm run build
@@ -40,6 +42,7 @@ npm run build:linux
 ```
 
 ### Testing & Quality
+
 ```bash
 # Run type checking for both Node and Web environments
 npm run typecheck
@@ -62,9 +65,7 @@ npm run format
 This is a standard Electron application with three main processes:
 
 1. **Main Process** (`src/main/index.ts`): Controls the application lifecycle, creates browser windows, and handles system events.
-
 2. **Preload Process** (`src/preload/index.ts`): Runs in a separate context between the main and renderer processes, exposing Electron APIs to the renderer securely.
-
 3. **Renderer Process** (`src/renderer/`): The Vue 3 application that runs in the browser window.
 
 Communication between processes is handled through Electron's IPC (Inter-Process Communication) mechanisms.
@@ -76,6 +77,8 @@ Communication between processes is handled through Electron's IPC (Inter-Process
 - TypeScript for type safety
 - Vite for fast development and building
 - electron-vite for Electron-specific Vite configuration
+- element-plus
+- element-plus/icon-vue
 
 ## Communication Rules
 

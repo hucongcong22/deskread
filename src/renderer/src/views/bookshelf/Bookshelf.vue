@@ -291,14 +291,18 @@ onMounted(() => {
 <style scoped>
 .bookshelf-container {
   width: auto;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 0 auto;
+  padding: 0;
 }
 
 .bookshelf-container h2 {
-  text-align: center;
+  text-align: left;
   color: var(--ev-c-text-1);
-  margin-bottom: 20px;
+  margin: 0 0 24px 0;
+  font-size: 28px;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .loading,
@@ -321,128 +325,163 @@ onMounted(() => {
   cursor: pointer;
 }
 
+.actions-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
 .add-btn,
 .refresh-btn {
-  background-color: #42b883;
-  color: white;
+  background-color: var(--ev-button-primary-bg);
+  color: var(--ev-button-primary-text);
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 20px;
-  margin-right: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
 }
 
 .refresh-btn:disabled {
-  background-color: #a0a0a0;
+  background-color: var(--ev-c-gray-2);
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .add-btn:hover,
 .refresh-btn:hover:not(:disabled) {
-  background-color: #359c6d;
+  background-color: var(--ev-button-primary-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
 }
 
 .add-novel-form {
-  background-color: var(--color-background-mute);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .add-novel-form h3 {
   margin-top: 0;
   color: var(--ev-c-text-1);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: var(--ev-c-text-1);
   font-weight: 500;
+  font-size: 14px;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   background-color: var(--color-background);
   color: var(--ev-c-text-1);
   font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--ev-c-primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
 }
 
 .form-group textarea {
-  min-height: 80px;
+  min-height: 100px;
   resize: vertical;
 }
 
 .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
 }
 
 .form-actions button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .form-actions button[type='submit'] {
-  background-color: #42b883;
-  color: white;
+  background-color: var(--ev-button-primary-bg);
+  color: var(--ev-button-primary-text);
+  box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
 }
 
 .form-actions button[type='submit']:hover {
-  background-color: #359c6d;
+  background-color: var(--ev-button-primary-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
 }
 
 .form-actions button[type='button'] {
-  background-color: #6c757d;
-  color: white;
+  background-color: var(--ev-button-alt-bg);
+  color: var(--ev-button-alt-text);
+  border: 1px solid var(--color-border);
 }
 
 .form-actions button[type='button']:hover {
-  background-color: #5a6268;
+  background-color: var(--ev-button-alt-hover-bg);
+  transform: translateY(-2px);
 }
 
 .novel-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
 .novel-item {
   display: flex;
-  background-color: var(--color-background-mute);
-  border-radius: 8px;
-  padding: 15px;
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  padding: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex-direction: column;
 }
 
 .novel-item:hover {
-  background-color: var(--ev-button-alt-hover-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .novel-cover {
-  width: 80px;
-  height: 100px;
-  background-color: #ddd;
-  border-radius: 4px;
-  margin-right: 15px;
+  width: 100%;
+  height: 180px;
+  background-color: var(--color-background-mute);
+  border-radius: 8px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -451,7 +490,8 @@ onMounted(() => {
 }
 
 .novel-cover.placeholder {
-  background-color: #eee;
+  background-color: var(--color-background-mute);
+  border: 1px dashed var(--color-border);
 }
 
 .novel-cover img {
@@ -461,8 +501,8 @@ onMounted(() => {
 }
 
 .novel-cover span {
-  color: #999;
-  font-size: 12px;
+  color: var(--ev-c-text-2);
+  font-size: 14px;
   text-align: center;
 }
 
@@ -475,83 +515,142 @@ onMounted(() => {
   margin: 0 0 8px 0;
   color: var(--ev-c-text-1);
   font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .author {
-  margin: 5px 0;
+  margin: 8px 0;
   color: var(--ev-c-text-2);
   font-size: 14px;
 }
 
 .description {
-  margin: 5px 0;
+  margin: 8px 0;
   color: var(--ev-c-text-2);
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .status {
-  margin: 5px 0 0 0;
+  margin: 8px 0 0 0;
   font-size: 12px;
-  color: #42b883;
+  color: var(--ev-c-primary);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .novel-actions {
-  position: absolute;
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  position: relative;
   top: 0;
   right: 0;
+  justify-content: flex-end;
 }
 
 .novel-actions button {
-  margin-left: 5px;
-  padding: 4px 8px;
+  padding: 6px 12px;
   font-size: 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .novel-actions button:first-child {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--ev-c-secondary);
+  color: var(--ev-c-black);
+}
+
+.novel-actions button:first-child:hover {
+  background-color: #38b6e0;
+  transform: translateY(-2px);
 }
 
 .novel-actions button:last-child {
-  background-color: #dc3545;
+  background-color: var(--ev-c-danger);
   color: white;
+}
+
+.novel-actions button:last-child:hover {
+  background-color: #ef4444;
+  transform: translateY(-2px);
 }
 
 .empty-bookshelf {
   text-align: center;
-  padding: 40px 20px;
+  padding: 60px 20px;
   color: var(--ev-c-text-2);
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  grid-column: 1 / -1;
 }
 
 .empty-bookshelf p {
   font-size: 18px;
-  margin: 0;
+  margin: 0 0 24px 0;
+}
+
+.empty-bookshelf .add-btn {
+  background-color: var(--ev-button-primary-bg);
+  color: var(--ev-button-primary-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+  margin: 0 auto;
+}
+
+.empty-bookshelf .add-btn:hover {
+  background-color: var(--ev-button-primary-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+}
+
+@media (max-width: 768px) {
+  .novel-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .novel-cover {
+    height: 160px;
+  }
 }
 
 @media (max-width: 600px) {
-  .novel-item {
+  .novel-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .novel-cover {
+    height: 200px;
+  }
+  
+  .actions-bar {
     flex-direction: column;
   }
-
-  .novel-cover {
-    width: 100%;
-    height: 150px;
-    margin-right: 0;
-    margin-bottom: 10px;
+  
+  .form-actions {
+    flex-direction: column;
   }
-
-  .novel-actions {
-    position: relative;
-    margin-top: 10px;
+  
+  .form-actions button {
+    width: 100%;
   }
 }
 </style>

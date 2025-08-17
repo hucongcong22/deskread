@@ -2,8 +2,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import ElementPlus from 'element-plus' //引入
 import 'element-plus/dist/index.css'
-
-
 // Create the Vue application instance
 const app = createApp(App)
 
