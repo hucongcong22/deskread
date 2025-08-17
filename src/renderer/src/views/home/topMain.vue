@@ -26,6 +26,8 @@ const closeWindow = (): void => {
   gap: 16px;
   height: 100%;
   padding: 0 24px;
+  width: 100%;
+  position: relative;
   -webkit-app-region: no-drag;
 }
 
@@ -60,6 +62,7 @@ const closeWindow = (): void => {
   background-color: var(--ev-button-primary-hover-bg);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+  color: var(--ev-button-primary-text); /* 保持文字颜色不变 */
 }
 
 .close-button {
@@ -68,18 +71,22 @@ const closeWindow = (): void => {
   height: 32px;
   border-radius: 50%;
   background-color: var(--ev-c-danger);
-  color: white;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .close-button:hover {
+  position: absolute;
+  transform: translateY(-50%) scale(1.05);
   background-color: #ef4444;
-  transform: scale(1.05);
 }
 // 响应式设计
 @media (max-width: 768px) {
@@ -110,6 +117,7 @@ const closeWindow = (): void => {
   .close-button {
     width: 28px;
     height: 28px;
+    right: 12px; /* 适应较小屏幕的padding */
   }
 }
 </style>
