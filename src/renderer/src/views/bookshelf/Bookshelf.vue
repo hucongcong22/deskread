@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { getBookshelf, BookInfoBean } from '@renderer/service/bookshelf/bookshelf'
+import { getBookshelf, BookInfoBean, getBookChapters, getBookChapterContent } from '@renderer/service/bookshelf/bookshelf'
 
 interface Novel {
   id: number
@@ -60,6 +60,16 @@ interface Novel {
   lastRead?: Date
   origin?: string
   bookUrl?: string
+  durChapterIndex?: number //当前的阅读章节
+}
+
+interface BookChapter {
+  url: string
+  title: string
+  isVolume: boolean
+  baseUrl: string
+  bookUrl: string
+  index: number
 }
 
 // 响应式数据
@@ -69,6 +79,7 @@ const editingNovel = ref<Novel | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const route = useRoute()
+const bookchapter = ref<BookChapter[]>([])
 
 const currentNovel = reactive({
   id: 0,
@@ -103,7 +114,23 @@ const removeNovel = (id: number): void => {
 const selectNovel = (novel: Novel): void => {
   console.log('Selected novel:', novel)
   // 这里可以添加跳转到小说详情页的逻辑
-  alert(`选择了小说: ${novel.title}`)
+  // 先获取章节信息
+  if (novel.bookUrl) {
+    getBookChapters(0, novel.bookUrl).then((chapters) => {
+      bookchapter.value = chapters.map((chapter) => ({
+        ...chapter
+      }))
+      const durChapterIndex = novel.durChapterIndex || 0
+      const firstChapter = bookchapter.value[durChapterIndex]
+      if (firstChapter) {
+        getBookChapterContent(firstChapter.index, firstChapter.bookUrl).then((content) => {
+          console.log('获取到的章节内容:', content)
+        })
+      }
+    })
+  } else {
+    console.error('书籍 URL 不存在')
+  }
 }
 
 // 处理图片加载错误
@@ -163,7 +190,6 @@ const loadBookshelfData = async (): Promise<void> => {
 
   try {
     const response = await getBookshelf()
-    console.log('API数据:', response)
     if (response) {
       // 获取当前groupId
       const currentGroupId = getCurrentGroupId()

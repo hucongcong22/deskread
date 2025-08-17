@@ -37,6 +37,16 @@ export interface BookGroupBean {
   show: true
 }
 
+// 书籍的一个目录
+export interface BookMu {
+  url: string
+  title: string
+  isVolume: boolean
+  baseUrl: string
+  bookUrl: string
+  index: number
+}
+
 // 获取书架数据
 export async function getBookshelf(refresh: number = 0): Promise<BookInfoBean[] | null> {
   try {
@@ -74,4 +84,33 @@ export function getBookshelfFromLocal(): BookInfoBean[] | null {
 // 获取书架的分组的信息
 export async function getBookshelfGroups(): Promise<BookGroupBean[] | null> {
   return await req.get<BookGroupBean[]>('/getBookGroups', {})
+}
+
+// 获取书籍的章节目录
+export async function getBookChapters(refresh: number = 0, bookUrl: string): Promise<BookMu[]> {
+  try {
+    const params = {
+      refresh: refresh,
+      url: bookUrl
+    }
+    const response = await req.post<BookMu[]>('/getChapterList', params)
+    return response
+  } catch (error) {
+    console.error('获取书籍章节目录失败:', error)
+    throw error
+  }
+}
+
+export async function getBookChapterContent(index: number, bookurl: string): Promise<string> {
+  try {
+    const params = {
+      url: bookurl,
+      index: index
+    }
+    const response = await req.post<string>('/getBookContent', params)
+    return response
+  } catch (error) {
+    console.error('获取书籍章节内容失败:', error)
+    throw error
+  }
 }

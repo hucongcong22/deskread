@@ -58,7 +58,6 @@ const bookshelfGroups = ref<Group[]>([])
 // 在组件加载时获取书架分组信息
 const loadBookshelfGroups = async (): Promise<void> => {
   const groups = await getBookshelfGroups()
-  console.log('获取到的书架分组信息:', groups)
   if (groups) {
     bookshelfGroups.value = groups
       .filter((g: Group) => g.groupId >= -1 && g.show)
@@ -69,7 +68,6 @@ const loadBookshelfGroups = async (): Promise<void> => {
         show: g.show
       }))
   }
-  console.log('书架分组信息:', bookshelfGroups.value)
 }
 
 // 首次加载时获取分组信息
@@ -119,7 +117,6 @@ const handleSettingsClick = (): void => {
 
 <style scoped lang="less">
 .left-main-container {
-  
   display: flex;
   flex-direction: column;
   height: auto;
