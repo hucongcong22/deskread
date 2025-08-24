@@ -3,18 +3,18 @@
     <div class="window-drag-bar"></div>
     <div class="window-buttons">
       <button class="window-button minimize" @click="minimizeWindow">
-        <svg width="12" height="12" viewBox="0 0 12 12">
-          <path d="M0 5h12v2H0z" fill="currentColor" />
+        <svg width="12" height="12" viewBox="0 0 16 16">
+          <path d="M14 8.5H2a.5.5 0 0 1 0-1h12a.5.5 0 0 1 0 1z" fill="currentColor" />
         </svg>
       </button>
       <button class="window-button maximize" @click="maximizeWindow">
-        <svg width="12" height="12" viewBox="0 0 12 12">
-          <path d="M0 0h12v12H0V0zm1 1v10h10V1H1z" fill="currentColor" />
+        <svg width="12" height="12" viewBox="0 0 16 16">
+          <path d="M3 3v10h10V3H3zm9 9H4V4h8v8z" fill="currentColor" />
         </svg>
       </button>
       <button class="window-button close" @click="closeWindow">
-        <svg width="12" height="12" viewBox="0 0 12 12">
-          <path d="M0 0L12 12M12 0L0 12" stroke="currentColor" stroke-width="1" />
+        <svg width="12" height="12" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="currentColor" />
         </svg>
       </button>
     </div>
@@ -90,15 +90,18 @@ const closeWindow = (): void => {
 .window-button.close:hover {
   background: #ff5f57;
   color: white;
+  border-color: #ff5f57;
 }
 
 .window-button.maximize:hover {
   background: #28c940;
   color: white;
+  border-color: #28c940;
 }
 
 .window-button.minimize:hover {
   background: #ffbd2e;
   color: white;
+  border-color: #ffbd2e;
 }
 </style>

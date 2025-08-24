@@ -19,10 +19,14 @@
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="$emit('toggleDarkMode')">{{ isDarkMode ? '☀️ 日间模式' : '🌙 夜间模式' }}</el-dropdown-item>
+            <el-dropdown-item @click="$emit('toggleDarkMode')">{{
+              isDarkMode ? '☀️ 日间模式' : '🌙 夜间模式'
+            }}</el-dropdown-item>
             <el-dropdown-item @click="$emit('changeFontSize', -1)">🔍 减小字体</el-dropdown-item>
             <el-dropdown-item @click="$emit('changeFontSize', 1)">🔍 增大字体</el-dropdown-item>
-            <el-dropdown-item @click="$emit('toggleFullscreen')">🖥️ {{ isFullscreen ? '退出全屏' : '全屏阅读' }}</el-dropdown-item>
+            <el-dropdown-item @click="$emit('toggleFullscreen')">
+              🖥️ {{ isFullscreen ? '退出全屏' : '全屏阅读' }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -61,6 +65,7 @@ defineEmits<{
   background-color: var(--color-card-bg);
   border-bottom: 1px solid var(--color-border);
   backdrop-filter: blur(8px);
+  height: 56px;
 }
 
 .header-left,
@@ -82,6 +87,7 @@ defineEmits<{
   width: 32px;
   height: 32px;
   padding: 6px;
+  border-radius: 50%;
 }
 
 :deep(.el-button:hover) {
@@ -90,5 +96,6 @@ defineEmits<{
 
 :deep(.el-icon) {
   font-size: 16px;
+  vertical-align: middle;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="reader-container">
-      <ReaderHeader
+    <ReaderHeader
       v-if="currentNovel"
       :is-dark-mode="isDarkMode"
       :is-fullscreen="isFullscreen"
@@ -325,7 +325,8 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-top: 80px; /* 为固定的顶部导航栏留出空间 */
+  padding-top: 56px; /* 为固定的顶部导航栏留出空间 */
+  padding-bottom: 20px;
 }
 
 .reader-header {

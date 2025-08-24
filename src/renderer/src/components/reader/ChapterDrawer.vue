@@ -6,6 +6,7 @@
     :direction="'ltr'"
     size="300px"
     :model-value="modelValue"
+    :show-close="false"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #header>
@@ -13,11 +14,16 @@
         <div class="book-info">
           <h2 class="book-title">{{ bookInfo.title }}</h2>
           <p class="book-author">作者: {{ bookInfo.author }}</p>
+          <el-input
+            v-model="chapterFilter"
+            class="chapter-filter"
+            placeholder="搜索章节"
+            clearable
+          />
         </div>
       </div>
     </template>
     <div class="drawer-content">
-      <el-input v-model="chapterFilter" placeholder="搜索章节" clearable class="chapter-filter" />
       <div class="chapter-list">
         <div
           v-for="(chapter, index) in filteredChapters"
@@ -70,24 +76,22 @@ const filteredChapters = computed(() => {
 
 <style scoped>
 .drawer-header {
-  padding: 16px 0;
+  padding: 5px;
 }
-
-.book-info {
-  margin-bottom: 16px;
-}
-
 .book-title {
   margin: 0 0 8px 0;
   color: var(--ev-c-text-1);
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 600;
 }
 
+.chapter-filter {
+  margin-top: 10px;
+}
 .book-author {
   margin: 0;
   color: var(--ev-c-text-2);
-  font-size: 14px;
+  font-size: 12px;
   opacity: 0.8;
 }
 
@@ -96,8 +100,15 @@ const filteredChapters = computed(() => {
   border-right: 1px solid var(--color-border);
 }
 
+.chapter-drawer :deep(.el-drawer__header) {
+  margin-bottom: 0 !important;
+  background-color: #d87474 !important;
+  /* margin: 0 !important;（如果需要也可以加上） */
+}
 .drawer-content {
-  padding: 16px;
+  padding: 0px;
+  height: auto;
+  overflow-y: auto;
 }
 
 .chapter-filter {
@@ -105,8 +116,8 @@ const filteredChapters = computed(() => {
 }
 
 .chapter-list {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
+  overflow-y: hidden;
+  padding-right: 8px;
 }
 
 .chapter-item {
