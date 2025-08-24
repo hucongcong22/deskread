@@ -147,7 +147,7 @@ const filteredChapters = computed(() => {
 
 .chapter-item.active {
   background-color: var(--ev-button-primary-bg);
-  color: white;
+  color: rgb(14, 14, 14);
 }
 
 .chapter-title {
