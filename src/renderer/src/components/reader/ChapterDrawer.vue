@@ -73,7 +73,20 @@ const chapterFilter = ref('')
 const filteredChapters = computed(() => {
   if (!chapterFilter.value) return props.chapters
   const searchText = chapterFilter.value.toLowerCase()
-  return props.chapters.filter((chapter) => chapter.title.toLowerCase().includes(searchText))
+
+  // 实现模糊匹配算法
+  return props.chapters.filter((chapter) => {
+    const chapterTitle = chapter.title.toLowerCase()
+
+    // 将搜索词按空格分割为多个关键词
+    const searchTerms = searchText.split(/\s+/).filter((term) => term.length > 0)
+
+    // 如果没有搜索词，返回所有章节
+    if (searchTerms.length === 0) return true
+
+    // 检查章节标题是否包含所有搜索关键词（顺序不重要）
+    return searchTerms.every((term) => chapterTitle.includes(term))
+  })
 })
 </script>
 

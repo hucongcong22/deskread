@@ -132,16 +132,6 @@ const fontSize = ref<number>(18)
 const lineHeight = ref<string>('1.8')
 const showFloatingActions = ref<boolean>(false)
 const showChapterDrawer = ref<boolean>(false)
-const chapterFilter = ref<string>('')
-
-// 过滤后的章节列表
-const filteredChapters = computed(() => {
-  if (!chapterFilter.value) return chapters.value
-  return chapters.value.filter((chapter) =>
-    chapter.title.toLowerCase().includes(chapterFilter.value.toLowerCase())
-  )
-})
-
 // 选择章节
 const selectChapter = (index: number): void => {
   showChapterDrawer.value = false

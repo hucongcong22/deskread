@@ -1,6 +1,10 @@
 <!-- 阅读器内容显示组件 -->
 <template>
-  <div class="content-container" :class="{ 'dark-mode': isDarkMode }" @click="$emit('click', $event)">
+  <div
+    class="content-container"
+    :class="{ 'dark-mode': isDarkMode }"
+    @click="$emit('click', $event)"
+  >
     <div class="content-text" :style="{ fontSize: fontSize + 'px', lineHeight: lineHeight }">
       <p v-for="(paragraph, index) in paragraphs" :key="index">{{ paragraph }}</p>
     </div>
