@@ -73,21 +73,29 @@ function createReaderWindow(novelData: NovelData): void {
     .then(() => {
       // 将小说数据传递给新窗口
       const novelDataString = JSON.stringify(novelData)
-      readerWindow.webContents.executeJavaScript(`
+      readerWindow.webContents
+        .executeJavaScript(
+          `
       localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
-    `).catch((error) => {
-        console.error('执行JavaScript设置小说数据时出错:', error)
-      })
+    `
+        )
+        .catch((error) => {
+          console.error('执行JavaScript设置小说数据时出错:', error)
+        })
     })
     .catch((error) => {
       console.error('清除存储数据时出错:', error)
       // 如果清除失败，仍然尝试设置数据
       const novelDataString = JSON.stringify(novelData)
-      readerWindow.webContents.executeJavaScript(`
+      readerWindow.webContents
+        .executeJavaScript(
+          `
       localStorage.setItem('selectedNovel', ${JSON.stringify(novelDataString)});
-    `).catch((error) => {
-        console.error('执行JavaScript设置小说数据时出错:', error)
-      })
+    `
+        )
+        .catch((error) => {
+          console.error('执行JavaScript设置小说数据时出错:', error)
+        })
     })
 
   readerWindow.on('ready-to-show', () => {

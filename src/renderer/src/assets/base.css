@@ -3,34 +3,34 @@
   --ev-c-white: #ffffff;
   --ev-c-white-soft: #f8f9fa;
   --ev-c-white-mute: #f1f3f5;
-  
+
   --ev-c-black: #212529;
   --ev-c-black-soft: #343a40;
   --ev-c-black-mute: #495057;
-  
+
   --ev-c-gray-1: #868e96;
   --ev-c-gray-2: #adb5bd;
   --ev-c-gray-3: #ced4da;
-  
+
   /* Primary color scheme */
   --ev-c-primary: #4361ee;
   --ev-c-primary-light: #4895ef;
   --ev-c-primary-dark: #3f37c9;
-  
+
   /* Secondary colors */
   --ev-c-secondary: #4cc9f0;
   --ev-c-accent: #f72585;
-  
+
   /* Status colors */
   --ev-c-success: #4ade80;
   --ev-c-warning: #facc15;
   --ev-c-danger: #f87171;
-  
+
   /* Text colors */
   --ev-c-text-1: rgba(33, 37, 41, 0.86);
   --ev-c-text-2: rgba(33, 37, 41, 0.6);
   --ev-c-text-3: rgba(33, 37, 41, 0.38);
-  
+
   /* Button styles */
   --ev-button-alt-border: transparent;
   --ev-button-alt-text: var(--ev-c-text-1);
@@ -38,7 +38,7 @@
   --ev-button-alt-hover-border: transparent;
   --ev-button-alt-hover-text: var(--ev-c-text-1);
   --ev-button-alt-hover-bg: var(--ev-c-gray-3);
-  
+
   /* Primary button styles */
   --ev-button-primary-bg: var(--ev-c-primary);
   --ev-button-primary-text: var(--ev-c-white);
@@ -49,11 +49,11 @@
   --color-background: var(--ev-c-white-soft);
   --color-background-soft: var(--ev-c-white);
   --color-background-mute: var(--ev-c-white-mute);
-  
+
   --color-text: var(--ev-c-text-1);
   --color-text-light: var(--ev-c-text-2);
   --color-text-lighter: var(--ev-c-text-3);
-  
+
   /* Component colors */
   --color-border: var(--ev-c-gray-3);
   --color-card-bg: var(--ev-c-white);

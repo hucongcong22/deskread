@@ -7,7 +7,19 @@ body {
   overflow: hidden;
   background-color: var(--color-background);
   user-select: none;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -41,7 +53,11 @@ code {
 }
 
 /* Make interactive elements non-draggable */
-button, a, input, textarea, select {
+button,
+a,
+input,
+textarea,
+select {
   -webkit-app-region: no-drag;
 }
 
