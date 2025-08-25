@@ -91,6 +91,12 @@ const filteredChapters = computed(() => {
 </script>
 
 <style scoped>
+.drawer-header {
+  /* Add the separator line */
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 16px;
+}
+
 .book-title {
   margin: 0 0 8px 0;
   color: var(--ev-c-text-1);
@@ -98,42 +104,37 @@ const filteredChapters = computed(() => {
   font-weight: 600;
 }
 
-.chapter-filter {
-  margin-top: 10px;
-}
 .book-author {
   margin: 0;
   color: var(--ev-c-text-2);
   font-size: 12px;
   opacity: 0.8;
 }
-.chapter-drawer-container ::v-deep(.el-drawer__header) {
-  margin-bottom: 0 !important;
+
+/* Merged styles for the filter input */
+.chapter-filter {
+  margin-top: 10px;
 }
+
+/* Customizing Element Plus Drawer component */
+.chapter-drawer-container ::v-deep(.el-drawer__header) {
+  margin-bottom: 0;
+}
+
 .drawer-content {
   padding: 0px;
   height: auto;
   overflow-y: auto;
-  margin-bottom: 0 !important;
-}
-
-/* 确保抽屉内容没有底部间距 */
-.chapter-drawer {
-  margin-bottom: 0 !important;
-}
-.chapter-filter {
-  margin-bottom: 16px;
 }
 
 .chapter-list {
-  overflow-y: hidden;
-  padding-right: 8px;
+  padding: 8px; /* Add some padding around the list */
 }
 
 .chapter-item {
   padding: 12px 16px;
   border-radius: 8px;
-  margin-bottom: 0 !important;
+  margin-bottom: 4px; /* Use a small margin instead of !important */
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;

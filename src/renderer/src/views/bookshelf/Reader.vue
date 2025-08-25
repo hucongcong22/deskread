@@ -20,6 +20,7 @@
     />
 
     <ReaderContent
+      ref="readerContentRef"
       v-if="chapterContent"
       :paragraphs="formattedParagraphs"
       :font-size="fontSize"
@@ -90,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { getBookChapters, getBookChapterContent } from '@renderer/service/bookshelf/bookshelf'
 import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft, ArrowRight, Loading, Warning } from '@element-plus/icons-vue'
@@ -133,6 +134,7 @@ const fontSize = ref<number>(18)
 const lineHeight = ref<string>('1.8')
 const showFloatingActions = ref<boolean>(false)
 const showChapterDrawer = ref<boolean>(false)
+const readerContentRef = ref<InstanceType<typeof ReaderContent> | null>(null)
 // 选择章节
 const selectChapter = (index: number): void => {
   showChapterDrawer.value = false
@@ -185,6 +187,15 @@ const loadChapterContent = async (index: number): Promise<void> => {
     const content = await getBookChapterContent(chapter.index, currentNovel.value.bookUrl)
     chapterContent.value = content
     selectedChapterIndex.value = index
+
+    // Scroll to top after content is loaded
+    await nextTick()
+    if (readerContentRef.value) {
+      const contentEl = readerContentRef.value.$el as HTMLElement
+      if (contentEl && typeof contentEl.scrollTo === 'function') {
+        contentEl.scrollTo({ top: 0, behavior: 'auto' }) // Use auto for instant scroll
+      }
+    }
   } catch (err) {
     error.value = err instanceof Error ? err.message : '获取章节内容失败'
   } finally {
