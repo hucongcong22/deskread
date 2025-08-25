@@ -56,7 +56,7 @@ defineEmits<{
   font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   letter-spacing: 0.3px;
   transition: font-size 0.2s ease;
-  max-width: 680px;
+  max-width: 98vw;
   margin: 0 auto;
 }
 

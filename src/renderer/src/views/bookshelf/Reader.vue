@@ -309,14 +309,13 @@ onUnmounted(() => {
 
 <style scoped>
 .reader-container {
-  max-width: 800px;
+  max-width: 100vw;
   margin: 0 auto;
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-top: 56px; /* 为固定的顶部导航栏留出空间 */
-  padding-bottom: 20px;
+  padding-top: 28px; /* 为固定的顶部导航栏留出空间 */
 }
 
 .reader-header {
@@ -497,26 +496,26 @@ onUnmounted(() => {
 
 .navigation-info {
   display: flex;
-  flex-direction: column;
   align-items: center;
   flex: 1;
-  max-width: 400px;
+  max-width: 80vw;
   text-align: center;
+  margin-bottom: 24px;
+  justify-content: center; /* 水平居中 */
 }
 
 .chapter-name {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ev-c-text-1);
-  margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
 
 .chapter-progress {
-  font-size: 12px;
+  font-size: 14px;
+  margin-left: 20px;
   color: var(--ev-c-text-3);
 }
 
