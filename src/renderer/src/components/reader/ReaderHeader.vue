@@ -1,8 +1,8 @@
 <!-- 阅读器顶部导航栏组件 -->
 <template>
-  <div class="reader-header">
+    <div class="reader-header" :class="{ 'dark-mode': isDarkMode }">
     <div class="header-left">
-      <el-button size="small" circle @click="$emit('openChapter')">
+      <el-button size="small" circle @click="$emit('open-chapter')">
         <el-icon><Document /></el-icon>
       </el-button>
     </div>
@@ -24,7 +24,7 @@ defineProps<{
 }>()
 
 defineEmits<{
-  (e: 'openChapter'): void
+  (e: 'open-chapter'): void
 }>()
 </script>
 
@@ -36,31 +36,43 @@ defineEmits<{
   right: 0;
   z-index: 100;
   display: flex;
-  padding: 0;
-  margin: 0;
-  justify-content: space-between; /* 子元素在主轴上两端对齐 */
-  background-color: var(--color-card-bg); /* 背景色，使用CSS变量定义 */
-  border-bottom: 1px solid var(--color-border); /* 底部边框，1像素实线，颜色由CSS变量定义 */
-  backdrop-filter: blur(8px); /* 背景模糊效果，值为8像素 */
-  height: 36px;
+  padding: 0 12px;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
 }
+
 .reader-header ::v-deep(.window-controls) {
   width: 94vw;
   margin-left: auto;
 }
 
+.reader-header.dark-mode {
+  background-color: rgba(30, 30, 30, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .header-left,
 .header-right {
   display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 :deep(.el-button) {
   background-color: transparent;
-  border: 1px solid var(--color-border);
-  width: 32px;
-  height: 32px;
-  padding: 6px;
-  border-radius: 50%;
+  border: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
 }
 
 :deep(.el-button:hover) {
@@ -68,7 +80,6 @@ defineEmits<{
 }
 
 :deep(.el-icon) {
-  font-size: 16px;
-  vertical-align: middle;
+  font-size: 20px;
 }
 </style>

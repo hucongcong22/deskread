@@ -26,38 +26,28 @@ defineEmits<{
 
 <style scoped>
 .content-container {
-  margin-bottom: 20px;
-  padding: 32px 40px;
-  background-color: var(--color-card-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px 0;
   flex: 1;
   overflow-y: auto;
-  border: 1px solid var(--color-border);
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
 }
 
-.content-container:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
-}
-
 .content-container.dark-mode {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-  border-color: #333;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .content-text {
-  color: var(--ev-c-text-1);
+  color: var(--color-text);
   white-space: pre-wrap;
   font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   letter-spacing: 0.3px;
   transition: font-size 0.2s ease;
-  max-width: 98vw;
+  max-width: 800px; /* 限制最大宽度以提高可读性 */
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .content-text p {
@@ -71,8 +61,8 @@ defineEmits<{
 }
 
 @media (max-width: 768px) {
-  .content-container {
-    padding: 24px 20px;
+  .content-text {
+    padding: 0 15px;
   }
 }
 </style>

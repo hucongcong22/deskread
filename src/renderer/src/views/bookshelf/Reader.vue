@@ -12,6 +12,7 @@
 
     <ChapterDrawer
       v-model:model-value="showChapterDrawer"
+      :is-dark-mode="isDarkMode"
       :book-info="currentNovel || { title: '', author: '' }"
       :chapters="chapters"
       :selected-index="selectedChapterIndex"
