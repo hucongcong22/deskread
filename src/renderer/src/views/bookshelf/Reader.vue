@@ -320,13 +320,12 @@ onUnmounted(() => {
 }
 
 .reader-header {
-  margin-bottom: 20px;
+  margin-left: 10px;
+  width: 100vw;
   flex-shrink: 0;
-  padding: 16px 24px;
+  padding: 0;
   background-color: var(--color-card-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--color-border);
+  border-bottom: 1px solid #cfcccc;
   backdrop-filter: blur(10px);
 }
 

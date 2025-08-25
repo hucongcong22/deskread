@@ -7,35 +7,15 @@
       </el-button>
     </div>
 
-    <div class="window-controls">
+    <div>
       <!-- 这里是窗口操作按钮的预留位置 -->
       <WindowControls />
-    </div>
-
-    <div class="header-right">
-      <el-dropdown trigger="click">
-        <el-button size="small" circle>
-          <el-icon><Setting /></el-icon>
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="$emit('toggleDarkMode')">{{
-              isDarkMode ? '☀️ 日间模式' : '🌙 夜间模式'
-            }}</el-dropdown-item>
-            <el-dropdown-item @click="$emit('changeFontSize', -1)">🔍 减小字体</el-dropdown-item>
-            <el-dropdown-item @click="$emit('changeFontSize', 1)">🔍 增大字体</el-dropdown-item>
-            <el-dropdown-item @click="$emit('toggleFullscreen')">
-              🖥️ {{ isFullscreen ? '退出全屏' : '全屏阅读' }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Document, Setting } from '@element-plus/icons-vue'
+import { Document } from '@element-plus/icons-vue'
 import WindowControls from '@renderer/components/window/WindowControls.vue'
 
 defineProps<{
@@ -45,9 +25,6 @@ defineProps<{
 
 defineEmits<{
   (e: 'openChapter'): void
-  (e: 'toggleDarkMode'): void
-  (e: 'changeFontSize', delta: number): void
-  (e: 'toggleFullscreen'): void
 }>()
 </script>
 
@@ -58,27 +35,23 @@ defineEmits<{
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 12px 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--color-card-bg);
-  border-bottom: 1px solid var(--color-border);
-  backdrop-filter: blur(8px);
-  height: 56px;
+  padding: 0;
+  margin: 0;
+  justify-content: space-between; /* 子元素在主轴上两端对齐 */
+  background-color: var(--color-card-bg); /* 背景色，使用CSS变量定义 */
+  border-bottom: 1px solid var(--color-border); /* 底部边框，1像素实线，颜色由CSS变量定义 */
+  backdrop-filter: blur(8px); /* 背景模糊效果，值为8像素 */
+  height: 36px;
+}
+.reader-header ::v-deep(.window-controls) {
+  width: 94vw;
+  margin-left: auto;
 }
 
 .header-left,
 .header-right {
   display: flex;
-  align-items: center;
-}
-
-.window-controls {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 :deep(.el-button) {
