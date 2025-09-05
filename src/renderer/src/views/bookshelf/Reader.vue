@@ -20,8 +20,8 @@
     />
 
     <ReaderContent
-      ref="readerContentRef"
       v-if="chapterContent"
+      ref="readerContentRef"
       :paragraphs="formattedParagraphs"
       :font-size="fontSize"
       :line-height="lineHeight"

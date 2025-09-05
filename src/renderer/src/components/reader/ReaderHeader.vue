@@ -1,6 +1,6 @@
 <!-- 阅读器顶部导航栏组件 -->
 <template>
-    <div class="reader-header" :class="{ 'dark-mode': isDarkMode }">
+  <div class="reader-header" :class="{ 'dark-mode': isDarkMode }">
     <div class="header-left">
       <el-button size="small" circle @click="$emit('open-chapter')">
         <el-icon><Document /></el-icon>
